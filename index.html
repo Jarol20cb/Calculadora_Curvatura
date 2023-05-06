@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculadora Momento de Curvatura T y L</title>
+</head>
+<style>
+body {
+	background-color: #222;
+	color: #fff;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	padding: 10px;
+	text-align: center;
+}
+
+h1 {
+	font-size: 24px;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+}
+
+.seccionT, .seccionL {
+	background-color: #444;
+	border-radius: 10px;
+	box-sizing: border-box;
+	display: inline-block;
+	margin: 5px;
+	padding: 10px;
+	text-align: center;
+	width: 40%;
+}
+
+.seccionT h2, .seccionL h2 {
+	color: #fff;
+	font-size: 20px;
+	margin-bottom: 15px;
+}
+
+.seccionT label, .seccionL label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.seccionT input, .seccionL input {
+	border-radius: 5px;
+	border: none;
+	box-sizing: border-box;
+	font-size: 14px;
+	padding: 5px;
+	width: 30%;
+	
+}
+
+
+.seccionT button,
+.seccionL button {
+  background-color: #c9ec02;
+  border-radius: 20px;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  width: 20%;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+
+}
+
+.seccionT button:hover,
+.seccionL button:hover {
+  background-color: #ddf362;
+  
+}
+
+
+.seccionT input[type="number"], .seccionL input[type="number"] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+    
+}
+
+.resultado {
+	background-color: #fff;
+	border-radius: 5px;
+	box-sizing: border-box;
+	color: #444;
+	font-size: 14px;
+	margin-top: 5px;
+	padding: 5px;
+	text-align: center;
+	width: 100%;
+}
+
+
+</style>
+<body>
+	<h1>Calculadora Momento de Curvatura T y L</h1>
+	<div class="seccionT">
+        <h2>Sección T</h2>
+        <form>
+            <label for="b">Base:</label>
+            <input type="number" id="b" name="base"><br><br>
+            <label for="h">Altura:</label>
+            <input type="number" id="h" name="altura"><br><br>
+            <label for="tw">Espesor de ala:</label>
+            <input type="number" id="tw" name="espesor_ala"><br><br>
+            <label for="tf">Espesor de nervio:</label>
+            <input type="number" id="tf" name="espesor_nervio"><br><br>
+            <button type="button" onclick="calcularMomentoCurvaturaT()">Calcular</button>
+            <br><br>
+            <label for="resultadoT">Momento de Curvatura:</label>
+            <input type="number" id="resultadoT" name="momento_curvatura" readonly>
+        </form>
+    </div>
+	
+	<div class="seccionL">
+        <h2>Sección L</h2>
+        <form>
+            <label for="b1">Base:</label>
+            <input type="number" id="b1" name="base"><br><br>
+            <label for="h1">Altura:</label>
+            <input type="number" id="h1" name="altura"><br><br>
+            <label for="tw1">Espesor de ala:</label>
+            <input type="number" id="tw1" name="espesor_ala"><br><br>
+            <label for="tf1">Espesor de nervio:</label>
+            <input type="number" id="tf1" name="espesor_nervio"><br><br>
+            <button type="button" onclick="calcularMomentoCurvaturaL()">Calcular</button>
+            <br><br>
+            <label for="resultadoL">Momento de Curvatura:</label>
+            <input type="number" id="resultadoL" name="momento_curvatura" readonly>
+        </form>
+    </div>
+	
+    <script>
+        function calcularMomentoCurvaturaT() {
+    //Obtener los valores de los campos de entrada
+    let b = parseFloat(document.getElementById("b").value);
+    let h = parseFloat(document.getElementById("h").value);
+    let tw = parseFloat(document.getElementById("tw").value);
+    let tf = parseFloat(document.getElementById("tf").value);
+
+    //Calcular el momento de curvatura
+    let Ix = (b * Math.pow(h, 3) - (b - tw) * Math.pow((h - 2 * tf), 3)) / 3;
+    let Cw = Math.pow(tw, 3) * h / 3 + (b - tw) * Math.pow((h - tf), 3) / 3;
+    let J = Ix + Cw;
+    let S = h * b * (1 - (tw * tf / (b * h)));
+
+    //Mostrar el resultado en el campo correspondiente
+    document.getElementById("resultadoT").value = (J / S).toFixed(2);
+}
+
+function calcularMomentoCurvaturaL() {
+    //Obtener los valores de los campos de entrada
+    let b = parseFloat(document.getElementById("b1").value);
+    let h = parseFloat(document.getElementById("h1").value);
+    let tw = parseFloat(document.getElementById("tw1").value);
+    let tf = parseFloat(document.getElementById("tf1").value);
+
+    //Calcular el momento de curvatura
+    let Ix = (b * Math.pow(h, 3) - (b - tw) * Math.pow((h - tf), 3)) / 3;
+    let Cw = tw * Math.pow((h - tf), 3) / 3;
+    let J = Ix + Cw;
+    let S = h * b * (1 - (tw * tf / (b * h)));
+
+    //Mostrar el resultado en el campo correspondiente
+    document.getElementById("resultadoL").value = (J / S).toFixed(2);
+}
+
+    </script>    
+</body>
